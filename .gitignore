@@ -48,3 +48,4 @@ app.*.map.json
 
 #git ignore file
 /android/app/google-services.json
+/lib/main.dart

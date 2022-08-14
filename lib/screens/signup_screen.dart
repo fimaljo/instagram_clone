@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/resources/auth_methods.dart';
+import 'package:instagram/responsive/mobile_screen_layout.dart';
+import 'package:instagram/responsive/responsive_layout_screen.dart';
+import 'package:instagram/screens/login_screen.dart';
 import 'package:instagram/utils/colors.dart';
 import 'package:instagram/utils/utils.dart';
 import 'package:instagram/widgets/text_field_input.dart';
+
+import '../responsive/web_screen_layout.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -54,12 +59,24 @@ class _SignupScreenState extends State<SignupScreen> {
     });
     if (res != 'success') {
       showSnackBar(context, res);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout()),
+      ));
     }
+  }
+
+  void navigationToLogin() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -180,10 +197,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    navigationToLogin();
+                  },
                   child: Container(
                     child: const Text(
-                      'Sign up',
+                      'Login',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
